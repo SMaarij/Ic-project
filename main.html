@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Service</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      color: #333;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .card {
+      background: white;
+      border: none;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 10px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+    }
+    h2 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 10px;
+      border-left: 4px solid #007bff;
+      padding-left: 10px;
+    }
+
+    input, button {
+      width: calc(100% - 20px);
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      outline: none;
+      transition: border 0.2s ease;
+    }
+    input:focus {
+      border-color: #007bff;
+    }
+    button {
+      background: linear-gradient(135deg, #007bff, #0056b3);
+      color: white;
+      cursor: pointer;
+      border: none;
+      font-weight: bold;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #0056b3, #0041a6);
+      transform: scale(1.03);
+    }
+
+    #result, #quote {
+      margin-top: 10px;
+      padding: 12px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      color: #333;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .hidden {
+      display: none;
+    }
+
+    footer {
+      margin-top: 20px;
+      color: white;
+      font-size: 0.9rem;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    footer a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.2s ease;
+    }
+    footer a:hover {
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <h1>Web Service</h1>
+
+  <div class="card">
+    <h2>Currency Converter</h2>
+    <input type="number" id="amount" placeholder="Enter Amount" />
+    <input type="text" id="fromCurrency" placeholder="From Currency (e.g USD)" />
+    <input type="text" id="toCurrency" placeholder="To Currency (e.g EUR)" />
+    <button id="convertButton">Convert</button>
+    <div id="result" class="hidden"></div>
+  </div>
+
+  <div class="card">
+    <h2>Random Quote</h2>
+    <button id="generateQuoteButton">Generate Quote</button>
+    <div id="quote" class="hidden"></div>
+  </div>
+
+  <footer>
+    Created by <a href="#">Maarij</a>
+  </footer>
+
+  <script>
+    const convertButton = document.getElementById("convertButton");
+    const resultDiv = document.getElementById("result");
+
+    convertButton.addEventListener("click", () => {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const fromCurrency = document.getElementById("fromCurrency").value.toUpperCase();
+      const toCurrency = document.getElementById("toCurrency").value.toUpperCase();
+
+      if (isNaN(amount) || !fromCurrency || !toCurrency) {
+        resultDiv.textContent = "Please enter valid inputs for amount, from, and to currencies.";
+        resultDiv.classList.remove("hidden");
+        return;
+      }
+
+      const conversionRate = 1.1;
+      const convertedAmount = (amount * conversionRate).toFixed(2);
+
+      resultDiv.textContent = `${amount} ${fromCurrency} = ${convertedAmount} ${toCurrency}`;
+      resultDiv.classList.remove("hidden");
+    });
+
+    const generateQuoteButton = document.getElementById("generateQuoteButton");
+    const quoteDiv = document.getElementById("quote");
+
+    const quotes = [
+      { text: "The best way to predict the future is to create it.", author: "Peter Drucker" },
+      { text: "Your time is limited, don't waste it living someone else's life.", author: "Steve Jobs" },
+      { text: "Not everything that is faced can be changed, but nothing can be changed until it is faced.", author: "James Baldwin" },
+    ];
+
+    generateQuoteButton.addEventListener("click", () => {
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      const randomQuote = quotes[randomIndex];
+      quoteDiv.innerHTML = `"${randomQuote.text}" - <strong>${randomQuote.author}</strong>`;
+      quoteDiv.classList.remove("hidden");
+    });
+  </script>
+</body>
+</html>
